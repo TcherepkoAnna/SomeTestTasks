@@ -31,14 +31,12 @@ public class DriveQuickstart {
 
     // Directory to store user credentials for this application.
     private static final java.io.File CREDENTIALS_FOLDER
-            = new java.io.File(System.getProperty("user.home"), "credentials");
-
+//            = new java.io.File(System.getProperty("user.home"), "credentials");
+                = new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources", "credentials");
     private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
 
-    //
     // Global instance of the scopes required by this quickstart. If modifying these
     // scopes, delete your previously saved credentials/ folder.
-    //
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
@@ -52,7 +50,6 @@ public class DriveQuickstart {
 
         // Load client secrets.
         InputStream in = new FileInputStream(clientSecretFilePath);
-
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
@@ -77,6 +74,7 @@ public class DriveQuickstart {
         }
 
         // 2: Build a new authorized API client service.
+        //Thread-safe HTTP low-level transport based on the java.net package.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         // 3: Read client_secret.json file & create Credential object.

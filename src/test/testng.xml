@@ -1,15 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="someTestTasks">
+<suite name="allTests">
 
     <test name="test_01">
         <classes>
             <!--<class name="tests.TestBase"/>-->
             <!--<class name="tests.TestOnliner"/>-->
             <!--<class name="tests.TestUploadDownload"/>-->
-            <class name="tests.TestFtp"/>
+            <class name="tests.TestGoogleDriveAPI"/>
+            <!--<class name="tests.TestFtp"/>-->
         </classes>
     </test>
-
-
 </suite>
+

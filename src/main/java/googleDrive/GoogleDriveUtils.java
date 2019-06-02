@@ -26,9 +26,9 @@ public class GoogleDriveUtils {
 
     // Directory to store user credentials for this application.
     private static final java.io.File CREDENTIALS_FOLDER //
-            = new java.io.File(System.getProperty("user.home"), "credentials");
+            = new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources", "credentials");
 
-    private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
+    private static final String CLIENT_SECRET_FILE_NAME = "credentials.json";
 
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
 
@@ -38,7 +38,7 @@ public class GoogleDriveUtils {
     // Global instance of the HTTP transport.
     private static HttpTransport HTTP_TRANSPORT;
 
-    private static Drive _driveService;
+    private static Drive driveService;
 
     static {
         try {
@@ -50,7 +50,7 @@ public class GoogleDriveUtils {
         }
     }
 
-    public static Credential getCredentials() throws IOException {
+    private static Credential getCredentials() throws IOException {
 
         java.io.File clientSecretFilePath = new java.io.File(CREDENTIALS_FOLDER, CLIENT_SECRET_FILE_NAME);
 
@@ -72,14 +72,14 @@ public class GoogleDriveUtils {
     }
 
     public static Drive getDriveService() throws IOException {
-        if (_driveService != null) {
-            return _driveService;
+        if (driveService != null) {
+            return driveService;
         }
         Credential credential = getCredentials();
         //
-        _driveService = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
+        driveService = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
                 .setApplicationName(APPLICATION_NAME).build();
-        return _driveService;
+        return driveService;
     }
 
 }

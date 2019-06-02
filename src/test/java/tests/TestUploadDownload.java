@@ -28,7 +28,7 @@ public class TestUploadDownload extends TestBase {
         driver.get(baseUrl);
         Homepage homepage = new Homepage(driver);
 
-        String filePath = getFilepathForDownload(UPLOAD_LIST_FILEPATH);
+        String filePath = getFilepathForUpload(UPLOAD_LIST_FILEPATH);
         LOG.debug("files to upload: " + filePath);
         homepage.setFilePath(filePath.trim());
         String downloadPageLink = homepage.startUpload();
@@ -44,7 +44,7 @@ public class TestUploadDownload extends TestBase {
         }
     }
 
-    private String getFilepathForDownload(String filepath) {
+    private String getFilepathForUpload(String filepath) {
         String str = readStringFromFile(filepath, true);
         return str;
     }
