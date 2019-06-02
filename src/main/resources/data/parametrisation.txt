@@ -1,0 +1,482 @@
+Parameterization in Selenium 
+
+- software should work differently with a different set of data.  unfair to test it with just one set of data. 
+- To pass multiple data to the application at runtime, we need to parameterize our test scripts.
+---> This concept which we achieve by parameterization is called Data Driven Testing. 
+
+To make parameterization more clear, we will go through the parameterization options in one the most popular framework for Selenium Webdriver - TestNG. 
+
+--- Type of Parameterization in TestNG: 
+
+1)With the help of Parameters annotation and TestNG XML file.
+@Parameters({"name", "searchkey"})
+Parameters from Testng.xml can be suite or test level. 
+2)With the help of DataProvider annotation. 
+@DataProvider(name="SearchProvider") 
+Parameter from DataProvider can take Method and ITestContext as the parameter.
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+
+--- Parameters annotation with Testng.xml
+Select parameterization using annotations when you do want to deal with complexity & the number of input combinations are less.
+
+Test Scenario
+Step 1) Launch browser & go to Google.com
+Step 2) Enter a search keyword
+Step 3) Verify the inputted value is same as that provided by our test data
+Step 4) Repeat 2 & 3 until all values are inputted
+Test Author - SearchKey
+Guru99 - India
+Krishna	- USA
+Bhupesh	- China 
+
+to parameterize this using TestNG:
+- Create an XML file which will store the parameters
+- In the test, add annotation @Parameters 
+
+
+public class TestWithParameterNGXML {
+
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+        FirefoxOptions options = new FirefoxOptions();
+        driver = new FirefoxDriver(options);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get("https://google.com");
+    }
+
+    @Test
+    @Parameters({"author", "searchKey"})
+    public void testParameterWithXML(@Optional("Abc") String author, String searchKey) throws InterruptedException {
+
+        WebElement searchText = driver.findElement(By.name("q"));
+        //Searching text in google text box
+        searchText.sendKeys(searchKey);
+
+        System.out.println("Welcome ->" + author + " Your search key is->" + searchKey);
+        System.out.println("Thread will sleep now");
+
+        Thread.sleep(3000);
+        System.out.println("Value in Google Search Box = " + searchText.getAttribute("value") + " ::: Value given by input = " + searchKey);
+        //verifying the value in google search box
+        AssertJUnit.assertTrue(searchText.getAttribute("value").equalsIgnoreCase(searchKey));
+    }
+}
+
+
+Now, parameters can be defined at 2 levels:
+Suite level – The parameters inside the <suite> tag of TestNG XML file will be a suite level parameter.
+Test Level -- The parameters inside the <Test> tag of testing XML file will be a Test level parameter. 
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestSuite" thread-count="3">
+    <parameter name="author" value="Guru99"/>
+    <parameter name="searchKey" value="India"/>
+    <test name="testGuru">
+        <parameter name="searchKey" value="UK"/>
+        <classes>
+            <class name="TestWithParameterNGXML"/>
+        </classes>
+    </test>
+</suite>
+
+NOTE: In case if the parameter name is same in suite level and test level then test level parameter will get preference over suite level. So, in that case, all the classes inside that test level will share the overridden parameter, and other classes which are outside the test level will share suite level parameter. 
+
+
+Troubleshooting
+Issue # 1 Parameter value in testng.xml cannot be typecasted to the corresponding test method's parameter it will throw an error. 
+Issue # 2 Your @Parameters do not have a corresponding value in testing.xml.
+You can solve this situation by adding @optional annotation in the corresponding parameter in the test method. 
+Issue # 3: You want to test multiple values of the same parameter using Testng.xml
+The Simple answer is this can not be done! You can have multiple different parameters, but each parameter can only have a single value. This helps prevent hardcoding values into the script. This makes code reusable. Think of it as config files for your script. If you want to use multiple values for a parameter use DataProviders 
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------  
+
+--- Parameters using @Dataprovider annotation 
+- to test with multiple sets of data we need to use Data Provider.
+To fill thousand's of web forms using our testing framework we need a different methodology which can give us a very large dataset in a single execution flow.
+This data driven concept is achieved by @DataProvider annotation in TestNG.  
+
+Data provider returns a two-dimensional JAVA object to the test method and the test method, will invoke M times in a M*N type of object array. For example, if the DataProvider returns an array of 2*3 objects, the corresponding testcase will be invoked 2 times with 3 parameters each time. 
+
+It has only one attribute 'name'. If you do not specify the name attribute then the DataProvider's name will be same as the corresponding method name. 
+
+public class TestWithDataproviderAnnotation {
+
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+        FirefoxOptions options = new FirefoxOptions();
+        driver = new FirefoxDriver(options);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get("https://google.com");
+    }
+
+    @Test(dataProvider = "SearchProvider")
+    public void testMethod(String author, String searchKey) throws InterruptedException {
+        {
+            WebElement searchText = driver.findElement(By.name("q"));
+            //search value in google searchbox
+            searchText.sendKeys(searchKey);
+            System.out.println("Welcome ->" + author + " Your search key is->" + searchKey);
+            Thread.sleep(3000);
+            String testValue = searchText.getAttribute("value");
+            System.out.println(testValue + "::::" + searchKey);
+            searchText.clear();
+            //Verify if the value in google search box is correct
+            Assert.assertTrue(testValue.equalsIgnoreCase(searchKey));
+        }
+    }
+
+    /**
+     * @return Object[][] where first column contains 'author'
+     * and second column contains 'searchKey'
+     */
+
+    @DataProvider(name = "SearchProvider")
+    public Object[][] getDataFromDataprovider() {
+        return new Object[][]
+                {
+                        {"Guru99", "India"},
+                        {"Krishna", "UK"},
+                        {"Bhupesh", "USA"}
+                };
+    }
+}
+
+
+--- Invoke DataProvider from different class 
+By default, DataProvider resides in the same class where test method is or its base class. To put it in some other class we need to make data provider method as static and in test method we need to add an attribute dataProviderClass in @Test annotation. 
+
+public class DataproviderClass {
+
+    @DataProvider(name="SearchProvider")
+    public static Object[][] getDataFromDataprovider(){
+        return new Object[][] {
+                { "Guru99", "India" },
+                { "Krishna", "UK" },
+                { "Bhupesh", "USA" }
+        };
+    }
+}
+
+ @Test(dataProvider="SearchProvider",dataProviderClass=DataproviderClass.class) 
+
+----------------------
+ 
+--- Types of Parameters in Dataprovider
+There are two type of parameters supported by DataProvider method.
+
+Method
+- If the SAME DataProvider should behave differently with different test method, use Method parameter. 
+
+...
+ @Test(dataProvider = "SearchProvider")
+    public void testMethodB(String searchKey) throws InterruptedException {
+        {
+            WebElement searchText = driver.findElement(By.name("q"));
+            //Search text in search box
+            searchText.sendKeys(searchKey);
+            //Print only search string
+            System.out.println("Welcome ->Unknown user Your search key is->" + searchKey);
+            Thread.sleep(3000);
+            String testValue = searchText.getAttribute("value");
+            System.out.println(testValue + "::::" + searchKey);
+            searchText.clear();
+            //Verify if google text box is showing correct value
+            Assert.assertTrue(testValue.equalsIgnoreCase(searchKey));
+        }
+    }
+
+    /**
+     * Here DataProvider returning value on the basis of test method name
+     **/
+
+    @DataProvider(name = "SearchProvider")
+    public Object[][] getDataFromDataprovider(Method m) {
+        if (m.getName().equalsIgnoreCase("testMethodA")) {
+            return new Object[][]{
+                    {"Guru99", "India"},
+                    {"Krishna", "UK"},
+                    {"Bhupesh", "USA"}
+            };
+        } else {
+            return new Object[][]{
+                    {"Canada"},
+                    {"Russia"},
+                    {"Japan"}
+            };
+        }
+    }
+
+	
+----------------------
+	
+ITestContext 
+- It can use to create different parameters for test cases based on groups.
+
+In real-life, you can use ITestContext to vary parameter values based on Test Methods, hosts, configurations of the test.	 
+
+In the following code example:
+We have 2 groups A & B
+Each test method is assigned to a group
+If value of group is A, a particular data set is returned
+If value of group is B, another data set is returned 
+
+ITestContext.getIncludedGroups() returns a valid Array only when there was at least one group included via the testng.xml suite file. 
+If you directly run your java class, it will first call dataprovider which cant get groups information as groups are not available. But instead if you call this class via testng.xml, it will have groups info available with ITestContext.
+You need to execute your class through TestNG xml.
+
+<suite name="Test Groups with ITestContext">
+    <test name="testMethodA">
+        <groups>
+            <run>
+                <include name="A"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="parameters.TestParameterByITestContextInDataprovider"/>
+        </classes>
+    </test>
+
+    <test name="testMethodB">
+        <groups>
+            <run>
+                <include name="B"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="parameters.TestParameterByITestContextInDataprovider"/>
+        </classes> 
+    </test>
+</suite>		
+
+public class TestParameterByITestContextInDataprovider {
+    WebDriver driver;
+
+    @BeforeTest(groups = {"A", "B"})
+    public void setup() {
+        ...
+    }
+
+    @Test(dataProvider = "SearchProvider", groups = "A")
+    public void testMethodA(String author, String searchKey) throws InterruptedException {
+        {
+            ...
+        }
+    }
+
+    @Test(dataProvider = "SearchProvider", groups = "B")
+    public void testMethodB(String searchKey) throws InterruptedException {
+        {
+            ...
+        }
+    }
+
+    /**
+     * Here the DAtaProvider will provide Object array on the basis on ITestContext
+     */
+    @DataProvider(name = "SearchProvider")
+    public Object[][] getDataFromDataprovider(ITestContext c) {
+        Object[][] groupArray = null;
+        String[] groups =  c.getIncludedGroups();
+        for (String group : groups) {
+            if (group.equalsIgnoreCase("A")) {
+                groupArray = new Object[][]{
+                        {"Guru99", "India"},
+                        {"Krishna", "UK"},
+                        {"Bhupesh", "USA"}
+                };
+                break;
+            } else if (group.equalsIgnoreCase("B")) {
+                groupArray = new Object[][]{
+                        {"Canada"},
+                        {"Russia"},
+                        {"Japan"}
+                };
+            }
+            break;
+        }
+        return groupArray;
+    }
+}
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------  
+
+--- Read & Write Data from Excel File in Selenium Webdriver: POI & JXL 
+
+File IO is a critical part of any software process. We frequently create a file, open it & update something or delete it in our Computers. Same is the case with Selenium Automation. We need a process to manipulate files with Selenium.
+Java provides us different classes for File Manipulation with Selenium. 
+
+--- how to read and write on Excel file with the help of Java IO package and Apache POI library. 
+
+--- Exporting Excel
+--- How to handle excel file using POI (Maven POM Dependency) 
+
+To read or write an Excel,Apache provides a very famous library POI. This library is capable enough to read and write both XLS and XLSX file format of Excel.
+To read XLS files, an HSSF implementation is provided by POI library.
+To read XLSX, XSSF implementation of POI library will be the choice. 
+
+If you are using Maven in your project, the Maven dependency will be: 
+<dependency>
+	<groupId>org.apache.poi</groupId>
+	<artifactId>poi</artifactId>
+	<version>3.9</version>
+</dependency> 
+
+Or you can simply download the latest version POI jars from http://poi.apache.org/download.html & download the latest zip file 
+
+Following is a list of different Java Interfaces and classes in POI for reading XLS and XLSX file: 
+Workbook: XSSFWorkbook and HSSFWorkbook classes implement this interface.
+XSSFWorkbook: Is a class representation of XLSX file.
+HSSFWorkbook: Is a class representation of XLS file.
+Sheet: XSSFSheet and HSSFSheet classes implement this interface.
+XSSFSheet: Is a class representing a sheet in an XLSX file.
+HSSFSheet: Is a class representing a sheet in an XLS file.
+Row: XSSFRow and HSSFRow classes implement this interface.
+XSSFRow: Is a class representing a row in the sheet of XLSX file.
+HSSFRow: Is a class representing a row in the sheet of XLS file.
+Cell: XSSFCell and HSSFCell classes implement this interface.
+XSSFCell: Is a class representing a cell in a row of XLSX file.
+HSSFCell: Is a class representing a cell in a row of XLS file. 
+
+
+--- Read/Write operation-
+For our example, we will consider below given Excel file format
+
+
+package excelExample;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class WriteGuru99ExcelFile {
+    public void writeExcel(String filePath, String fileName, String sheetName, String[] dataToWrite) throws IOException {
+
+        //Create an object of File class to open xlsx file
+        File file = new File(filePath + "\\" + fileName);
+
+        //Create an object of FileInputStream class to read excel file
+        FileInputStream inputStream = new FileInputStream(file);
+
+        Workbook guru99Workbook = null;
+
+        //Find the file extension by splitting  file name in substring and getting only extension name
+        String fileExtensionName = fileName.substring(fileName.indexOf("."));
+
+        //Check condition if the file is xlsx file
+        if (fileExtensionName.equals(".xlsx")) {
+            //If it is xlsx file then create object of XSSFWorkbook class
+            guru99Workbook = new XSSFWorkbook(inputStream);
+        }
+
+        //Check condition if the file is xls file
+        else if (fileExtensionName.equals(".xls")) {
+            //If it is xls file then create object of XSSFWorkbook class
+            guru99Workbook = new HSSFWorkbook(inputStream);
+        }
+
+        //Read excel sheet by sheet name
+        Sheet sheet = guru99Workbook.getSheet(sheetName);
+
+        System.out.println("Rows number before cleaning: " + sheet.getLastRowNum() + " - " + sheet.getFirstRowNum());
+        System.out.println("= " + (sheet.getLastRowNum() - sheet.getFirstRowNum()));
+        // clear previously entered values
+        for (int i = 5; i < sheet.getLastRowNum() - sheet.getFirstRowNum() + 1; i++) {
+            Row r = sheet.getRow(i);
+            sheet.removeRow(r);
+        }
+
+        //Get the current count of rows in excel file
+        System.out.println("Rows number after cleaning, before writing: " + (sheet.getLastRowNum() - sheet.getFirstRowNum()));
+
+        //Get the first row from the sheet
+        Row row1 = sheet.getRow(0);
+
+        //Create a new row and append it at last of sheet
+        Row newRow = sheet.createRow(sheet.getLastRowNum() + 1);
+
+        //Create a loop over the cell of newly created Row
+        for (int j = 0; j < row1.getLastCellNum(); j++) {
+            //Fill data in row
+            Cell cell = newRow.createCell(j);
+            cell.setCellValue(dataToWrite[j]);
+        }
+
+        //Close input stream
+        inputStream.close();
+
+        //Create an object of FileOutputStream class to create write data in excel file
+        FileOutputStream outputStream = new FileOutputStream(file);
+
+        //write data in the excel file
+        guru99Workbook.write(outputStream);
+
+        //close output stream
+        outputStream.close();
+
+    }
+
+    public static void main(String... strings) throws IOException {
+
+        //Create an array with the data in the same order in which you expect to be filled in excel file
+        String[] valueToWrite = {"Mr. E", "Noida"};
+
+        //Create an object of current class
+        WriteGuru99ExcelFile objExcelFile = new WriteGuru99ExcelFile();
+
+        //Write the file using file name, sheet name and the data to be filled
+        System.out.println(System.getProperty("user.dir"));
+        objExcelFile.writeExcel(System.getProperty("user.dir") + "\\src\\excelExample", "ExportExcel.xlsx", "ExcelGuru99Demo", valueToWrite);
+
+    }
+}
+
+------- 
+
+private static int findCell(HSSFSheet sheet, String cellContent) {
+    for (Row row : sheet) {
+        for (Cell cell : row) {
+            if (cell.getCellType() == CellType.STRING) {
+                if (cell.getRichStringCellValue().getString().trim().equals(cellContent)) {
+                    return cell;  
+                }
+            }
+        }
+    }               
+    return 0;
+}
+
+-------- 
+// The formatter will return String cells as-is, and for Numeric cells will apply the formatting rules on the style to the number of the cell. 
+DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+ Cell cell = sheet.getRow(i).getCell(0);
+ String j_username = formatter.formatCellValue(cell); //Returns the formatted value of a cell as a String regardless of the cell type.
+
+------------------------- 
+
+--- Excel Manipulation using JXL API
+Read & Write Data from Excel File in Selenium Webdriver: POI & JXL
+
+JXL is also another famous jar for reading writing Excel files. Now a day's POI is used in most of the projects, but before POI, JXL was only Java API for Excel manipulation. It is a very small and simple API.
+
+TIPS: My suggestion is not to use JXL in any new project because the library is not in active development from 2010 and lack of the feature in compare to POI API.
+
+Download JXL:
+http://sourceforge.net/projects/jexcelapi/files/jexcelapi/2.6.12/
+

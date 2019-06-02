@@ -1,0 +1,4 @@
+src\main\resources\data\xpath.txt
+src\main\resources\data\testing.txt
+src\main\resources\data\selenium.txt
+src\main\resources\data\parametrisation.txt

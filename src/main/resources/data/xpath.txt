@@ -1,0 +1,285 @@
+new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='style-scope ytd-channel-renderer' and contains(text(),'Kaza LoL LCS Highlights')]"))).click();
+
+ONLINER
+            Компьютеры и&nbsp;сети
+			//    By catalogNavigationBarLocator = By.xpath("//ul[@class='catalog-navigation-classifier']");
+/html/body/div[1]/div/div/div[2]/div/div/div[1]/ul/li[3]/span[2]/span
+//*[contains(text(),'Компьютеры и сети')]
+//span[starts-with(text(),'Компьютеры')]
+//div[starts-with(text(),'Комплектующие')] --- fail 
+//div[text()='Комплектующие'] --- fail
+//div[contains(text(), 'Комплектующие')]
+//a[contains(@href, 'videocard')]
+
+-------------------------------
+
+//span[contains(text(),'Дата выхода')]//following::div[1]  /descendant::input[contains(@data-bind, 'facet.value.from')[1]					  
+//input[contains(@data-bind, 'facet.value.from')]	--- finds 4 elements
+//input[contains(@data-bind, 'facet.value.to')]			--- finds 4 elements
+//input[contains(@placeholder, 'от')] --- works for price
+//input[contains(@placeholder, 'до')]	 --- works for price 
+$x("//span[contains(text(),'Дата выхода')]//following::div[1]/descendant::input[contains(@data-bind, 'facet.value.from')[1]") --- works! 
+To find in a exhisting container WebElement:	  
+    By filterReleaseDateFromLocator = By.xpath("./descendant::input[contains(@data-bind, 'facet.value.from')][1]");
+    By filterReleaseDateToLocator = By.xpath("self::node()/descendant::input[contains(@data-bind, 'facet.value.to')][2]");						  
+------------------------------
+
+$x("//div[. = 'Видеопамять'][contains(@class, 'label')]")	
+/html/body/div[1]/div/div/div[2]/div/div/div[2]/div[2]/div[3]/div[1]/div[1]/div[1]/div[2] ---> /div[10]/div[3]/div/div[1]/select
+$x("//div[. = 'Видеопамять']/ancestor::div[4]")	
+$x("//div[contains(@class, 'fieldset')][10]") - 10ый из всех контейнеров 
+$x("//div[contains(@class, 'fieldset') and contains(.,'Видеопамять')]") - !!! container 
+$x("//div[contains(@class, 'fieldset') and contains(.,'Видеопамять')]/descendant::select[contains(@data-bind, 'facet.value.to')]") - select dropdown 
+         	
+$x("//div[@class='schema-filter__fieldset']")
+$x("//div[text()[contains(.,'Видеопамять')]]") - returns 2 help elements 
+$x("//div[. = 'Видеопамять']") - returns 1 help element 
+$x("//span[text()[contains(.,'Видеопамять')]]") - returns label element 
+---------------------------
+Тип видеопамяти 
+$x("//div[contains(@class, 'fieldset') and contains(.,'Тип видеопамяти')]") - !!! container 
+$x("//div[contains(@class, 'fieldset') and contains(.,'Тип видеопамяти')]/descendant::div[contains(text(), 'Все')]") 
+
+
+$x("//div[contains(@class, 'schema-filter-popover__inner')]") - container 6 items 
+                        <!-- ko if: item.letter --><!-- /ko -->
+
+                        <label class="schema-filter__checkbox-item" data-bind="css: {'schema-filter__checkbox-item_disabled': facet.isDisabledLabel(item.id)}">
+                            <span class="i-checkbox">
+                                <input type="checkbox" class="i-checkbox__real" data-bind="value: item.id, checked: facet.values" value="gddr5">
+                                <span class="i-checkbox__faux"></span>
+                            </span>
+                            <span class="schema-filter__checkbox-text" data-bind="html: item.name">GDDR5</span>
+                        </label>
+$x("//label[contains(.,'GDDR5')]") --- 3 items including GDDR5X
+$x("//label[contains(text(),'GDDR5')]") - no elements
+$x("//label[.='GDDR5']") - no elements ---> exact text
+$x("//*[.='GDDR5']") - 2 items --- !!! 
+$x("//label[text='GDDR5']")  - no elements
+$x("//label[text()='GDDR5']")  - no elements
+
+$x("//label[contains(.='GDDR5')]") - Exception 
+$x("//label[contains(text='GDDR5')]") - Exception 
+$x("//label[contains(text()='GDDR5')]") - Exception 
+
+$x("//label[text(),'GDDR5']") - SyntaxError
+$x("//label[.,'GDDR5']") - SyntaxError 
+
+
+$x("//div[contains(@class, 'schema-filter-popover__inner')]//*[.='GDDR5']") --- exact element!!!
+                    
+--------------------------------- 
+Популярные
+
+//a[contains(@class,'schema-order__link')] - dropdown button
+//div[@class='schema-order__list']
+//span[.='Популярные']
+
+	
+Xpath=//td[text()='UserID']	
+Xpath=//*[contains(text(),'here')]  
+Xpath=//label[starts-with(@id,'message')]
+
+
+----------------------------------------  
+Products 
+
+//div[@class='schema-product__group'] - product container --- all 
+//a[contains(@class,'schema-product__price-value_primary')]  --- all links to product prices 
++//span --- all prices texts '387,03 р.' 
+//div[@class='schema-product__title'] - name title and link container 
++//a
++//span 
+.//div[@class='schema-product__rating-group']  - rating containers
+.//a[@class='schema-product__rating']
+.//span[contains(@class, 'rating rating')]
+
+.//div[@class='schema-product__title']//span --- product title
+$x("//div[@class='schema-product__group']//div[@class='schema-product__title']//span")
+
+
+$x("//div[@class='schema-product__group']//span[contains(@class, 'rating rating')]")
+
+---------------------------------
+offers
+
+.//div[contains(@class, 'schema-product__offers')] 
+
+//table[contains(@class, 'b-offers-list-line-table__table')] - table 
+//tr[contains(@class, 'state_add-to-cart')] --- seller container 
+.//p[contains(@class, 'price-primary')]//span  --- price text 
+.//a[contains(@class, 'logo')]  --- seller logo link 
+
+-------------------- 
+
+seller 
+
+//h1[@class=sells-title] --- seller title 
+
+
+--------------------------------------------------------------------
+==================================================================== 
+
+XPath text() = is different than XPath . = 
+https://stackoverflow.com/questions/34593753/testing-text-nodes-vs-string-values-in-xpath
+https://stackoverflow.com/questions/38240763/xpath-difference-between-dot-and-text 
+https://stackoverflow.com/questions/3655549/xpath-containstext-some-string-doesnt-work-when-used-with-node-with-more?rq=1  !!! 
+
+
+(Matching text nodes is different than matching string values)
+
+The following XPaths are not the same...
+
+    //span[text() = 'Office Hours']
+    Says:
+    Select the span elements that have an immediate child text node equal to 'Office Hours`.
+
+    //span[. = 'Office Hours']
+    Says:
+    Select the span elements whose string value is equal to 'Office Hours`.
+
+In short, for element nodes:
+    The string-value of an element node is the concatenation of the string-values of all text node descendants of the element node in document order.
+
+Examples:
+The following span elements would match only #1:
+    <span class="portal-text-medium">Office Hours<br/>8:00-10:00</span>
+    <span class="portal-text-medium">My<br/>Office Hours</span>
+
+The following span elements would match only #2:
+    <span class="portal-text-medium"><b>Office</b> Hours</span>
+    <span class="portal-text-medium"><b><i>Office Hours</i></b></span>
+
+The following span element would match both #1 and #2:
+    <span class="portal-text-medium">Office Hours</span>
+
+	
+--------------- 	
+
+
+The <Comment> tag contains two text nodes and two <br> nodes as children.
+
+Your xpath expression was
+
+//*[contains(text(),'ABC')]
+
+To break this down,
+
+    * is a selector that matches any element (i.e. tag) -- it returns a node-set.
+    The [] are a conditional that operates on each individual node in that node set. It matches if any of the individual nodes it operates on match the conditions inside the brackets.
+    text() is a selector that matches all of the text nodes that are children of the context node -- it returns a node set.
+    contains is a function that operates on a string. If it is passed a node set, the node set is converted into a string by returning the string-value of the node in the node-set that is first in document order. Hence, it can match only the first text node in your <Comment> element -- namely BLAH BLAH BLAH. Since that doesn't match, you don't get a <Comment> in your results.
+
+You need to change this to
+
+//*[text()[contains(.,'ABC')]]
+
+    * is a selector that matches any element (i.e. tag) -- it returns a node-set.
+    The outer [] are a conditional that operates on each individual node in that node set -- here it operates on each element in the document.
+    text() is a selector that matches all of the text nodes that are children of the context node -- it returns a node set.
+    The inner [] are a conditional that operates on each node in that node set -- here each individual text node. Each individual text node is the starting point for any path in the brackets, and can also be referred to explicitly as . within the brackets. It matches if any of the individual nodes it operates on match the conditions inside the brackets.
+    contains is a function that operates on a string. Here it is passed an individual text node (.). Since it is passed the second text node in the <Comment> tag individually, it will see the 'ABC' string and be able to match it.
+
+	
+
+--------------------------------------------------------------------
+==================================================================== 
+https://www.swtestacademy.com/xpath-selenium/
+
+Tag – Attribute – Value Trio
+Syntax: //tag[@attribute=’value‘]
+Example: //input[@id, ‘user-message’] 
+
+Contains
+When an attribute of an element is dynamic, then you can use contains() for the constant part of the web element but also you can use contains() in any condition when you need.
+Syntax: //tag[contains(@attribute, ‘value‘)]
+Example: //input[contains(@id, ‘er-messa’)] 
+//*[contains(@name,'btnClk')]
+--> It searches "btnClk" for all name attributes in the DOM.
+//*[contains(text(),'here')]
+--> It searches the text "here" in the DOM.
+//*[contains(@href,'swtestacademy.com')]
+--> It searches "swtestacademy.com" link in the DOM.
+
+Starts-with
+This method checks the starting text of an attribute. It is very handy to use when the attribute value changes dynamically but also you can use this method for non-changing attribute values.
+Syntax: //tag[starts-with(@attribute, ‘value‘)]
+Example: //input[starts-with(@id, ‘user’)] 
+
+Chained Declarations
+We can chain multiple relative XPath declarations with “//” double slash to find an element location as shown below.
+Example: //div[@class=’form-group’]//input[@id=’user-message’] 
+
+Operator “or”
+Syntax: //tag[XPath Statement-1 or XPath Statement-2]
+“or” is case-sensitive, you should not use capital “OR”.
+
+Operator “and” 
+“and” is case-sensitive, you should not use capital “AND”.
+Syntax: //tag[XPath Statement-1 and XPath Statement-2]
+Example: //*[@id=’user-message’ and @class=’form-control’]
+Example: //*[@id=’user-message’ or @class=’form-control’] 
+
+Operator "not" 
+$x("//input[@type='file'and not(contains(@style,'hidden'))]")
+
+Text
+
+We can find an element with its exact text.
+Syntax: //tag[text()=’text value‘]
+Example: .//label[text()=’Enter message’] 
+
+https://www.red-gate.com/simple-talk/dotnet/net-framework/xpath-css-dom-and-selenium-the-rosetta-stone/ 
+
+------------------------------ 
+https://habr.com/ru/post/52680/ 
+
+---------------------------------------------------------------------------------------------------------------  
+
+Getting element outside of the current context can be seen when you use functions, for example:
+
+void  deleteItem(WebElement element){
+      // click on the delete button
+      element.FindElement(By.XPath(".//button")).Click();
+      // click on the confirmation dialog
+      element.FindElement(By.XPath("//dialog")).Click();
+}
+
+Note: the dialog is not beneath the given element 
+
+--------------------------------------------------------------------------------------------------------------- 
+
+ElementNotInteractableException element could not be scrolled into view 
+
+First of all, verify that the element is in your frame.
+If it's not, you will need to switch to the correct frame in order to click on the element:
+driver.switchTo().frame(driver.findElement(By.name("iframeWithElement")));
+
+In addition, there is a number of steps you can do in order to improve the stability while clicking on different UI elements:
+    Explicitly wait for it's presence in the DOM
+    Scroll into the element view
+    Check if clickable
+
+WebDriverWait wait = new WebDriverWait(driver, 3)
+JavascriptExecutor js = ((JavascriptExecutor) driver)
+
+//presence in DOM
+wait.until(ExpectedConditions.presenceOfElement(By.id("ID")));
+
+//scrolling
+WebElement element = driver.findElement(By.id("ID")));  
+js.executeScript("arguments[0].scrollIntoView(true);", element);
+
+//clickable
+wait.until(ExpectedConditions.elementToBeClickable(By.id("ID")));
+ 
+ 
+You could try this version which scrolls to the x,y position of the element:
+public static void scrollIntoView(WebElement ele) {
+    ((JavascriptExecutor)driver).executeScript("window.scrollTo(" + ele.getLocation().x + "," + ele.getLocation().y + ")"); 
+	
+http://software-testing.ru/forum/index.php?/topic/21523-chto-delat-s-oshibkoi-element-cannot-be-scrolled-into-view/ 
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=1422272 
+
+---------------------------------------------------------------------------------------------	

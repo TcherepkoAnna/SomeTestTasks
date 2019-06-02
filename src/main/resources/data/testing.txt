@@ -1,0 +1,194 @@
+https://www.guru99.com/automation-testing.html
+
+Though SDLC uses the term ‘Development’, it does not involve just coding tasks done by developers but also incorporates the tasks contributed by testers and stakeholders.
+
+In SDLC, test cases are created. 
+In STLC Test cases are executed. 
+
+Testing phase in waterfall model starts only after implementation of the system is done.
+Testing is done within the SDLC.
+
+What is V- Model?
+V- model is an extension of the waterfall model. Unlike the waterfall model, In V-model, there is a corresponding testing phase for each software development phase. Testing in V-model is done in parallel to SDLC stage.
+Testing is done as a subproject of SDLC. 
+
+Which Test Cases to Automate?
+Test cases to be automated can be selected using the following criterion to increase the automation ROI:
+High Risk - Business Critical test cases
+Test cases that are repeatedly executed
+Test Cases that are very tedious or difficult to perform manually
+Test Cases which are time-consuming 
+
+not suitable for automation:
+Test Cases that are newly designed and not executed manually at least once
+Test Cases for which the requirements are frequently changing
+Test cases which are executed on an ad-hoc basis. 
+
+
+---------------- Automation Testing Process:
+---> Test tool selection:
+Test Tool selection largely depends on the technology the Application Under Test is built on. For instance, QTP does not support Informatica. So QTP cannot be used for testing Informatica applications. It's a good idea to conduct a Proof of Concept of Tool on AUT.
+
+---> Defining Scope of Automation:
+The scope of automation is the area of your Application Under Test which will be automated. 
+Following points help determine scope:
+- The features that are important for the business; 
+- Scenarios which have a large amount of data; 
+- Common functionalities across applications; 
+- Technical feasibility; 
+- The extent to which business components are reused; 
+- The complexity of test cases; 
+- Ability to use the same test cases for cross-browser testing; 
+
+---> Planning, Design, and Development 
+During this phase, you create an Automation strategy & plan, which contains the following details: 
+- Automation tools selected; 
+- Framework design and its features; 
+- In-Scope and Out-of-scope items of automation; 
+- Automation testbed preparation; 
+- Schedule and Timeline of scripting and execution; 
+- Deliverables of Automation Testing; 
+
+---> Test Execution 
+Automation Scripts are executed during this phase. The scripts need input test data before they are set to run. Once executed they provide detailed test reports.
+Execution can be performed using the automation tool directly or through the Test Management tool which will invoke the automation tool.
+Example: Quality center is the Test Management tool which in turn it will invoke QTP for execution of automation scripts. Scripts can be executed in a single machine or a group of machines. The execution can be done during the night, to save time. 
+
+---> Maintenance
+As new functionalities are added to the System Under Test with successive cycles, Automation Scripts need to be added, reviewed and maintained for each release cycle. Maintenance becomes necessary to improve the effectiveness of Automation Scripts. 
+
+---------------------------------------------------------------
+
+Framework for Automation 
+
+A framework is set of automation guidelines which help in ... 
+- Maintaining consistency of Testing
+- Improves test structuring
+- Minimum usage of code
+- Less Maintenance of code 
+- Improve re-usability
+- Non Technical testers can be involved in code
+- The training period of using the tool can be reduced
+- Involves Data wherever appropriate
+
+There are four types of frameworks used in automation software testing:
+- Data Driven Automation Framework
+- Keyword Driven Automation Framework
+- Modular Automation Framework
+- Hybrid Automation Framework
+
+--------------------------------------------------------------- 
+
+Automation Tool Best Practices
+
+To get maximum ROI of automation, observe the following:
+- The scope of Automation needs to be determined in detail before the start of the project. This sets expectations from Automation right.
+- Select the right automation tool: A tool must not be selected based on its popularity, but it's fit to the automation requirements.
+- Choose an appropriate framework
+- Scripting Standards- Standards have to be followed while writing the scripts for Automation. Some of them are-
+--- Create uniform scripts, comments, and indentation of the code
+--- Adequate Exception handling - How error is handled on system failure or unexpected behavior of the application.
+--- User-defined messages should be coded or standardized for Error Logging for testers to understand.
+- Measure metrics- Success of automation cannot be determined by comparing the manual effort with the automation effort but by also capturing the following metrics: 
+--- Percent of defects found
+--- The time required for automation testing for each and every release cycle
+--- Minimal Time is taken for release
+--- Customer Satisfaction Index
+--- Productivity improvement
+The above guidelines if observed can greatly help in making your automation successful. 
+
+------------------------------------------------------------------- 
+Different types of software testing that can be automated: 
+Smoke Testing
+Unit Testing
+Integration Testing
+Functional Testing
+Keyword Testing
+Regression Testing
+Data Driven Testing
+Black Box Testing
+
+---------------------------------------------------------------- 
+
+There are tons of Functional and Regression Testing Tools available in the market. Here are 5 best tools certified by our experts:
+
+Tricentis
+Tricentis is the industry’s #1 Automation Testing platform and is recognized for reinventing software testing for DevOps. Tricentis is the only vendor to achieve “leader” status in all three top analyst reports. 
+Features:
+Risk-based testing
+Scriptless end-to-end test automation
+Supports API, BI, Mobile, Cross Browser, RPA and other automation testing types
+The industry’s most extensive technical support
+
+mabl
+mabl delivers scriptless end-to-end test automation, integrated with your delivery pipeline, so you can focus on improving your app.
+Features:
+Proprietary machine learning models automatically identify and surface application issues
+Tests are automatically repaired when UI changes
+Automated regression insights on every build
+Learn more about mabl
+
+Selenium
+It is a software testing tool used for Regression Testing. It is an open source testing tool that provides playback and recording facility for Regression Testing. The Selenium IDE only supports Mozilla Firefox web browser.
+It provides the provision to export recorded script in other languages like Java, Ruby, RSpec, Python, C#, etc
+It can be used with frameworks like JUnit and TestNG
+It can execute multiple tests at a time
+Autocomplete for Selenium commands that are common
+Walkthrough tests
+Identifies the element using id, name, X-path, etc.
+Store tests as Ruby Script, HTML, and any other format
+It provides an option to assert the title for every page
+It supports selenium user-extensions.js file
+It allows to insert comments in the middle of the script for better understanding and debugging
+
+QTP (MicroFocus UFT)
+QTP is widely used for functional and regression testing, it addresses every major software application and environment. To simplify test creation and maintenance, it uses the concept of keyword driven testing. It allows the tester to build test cases directly from the application.
+It is easier to use for a non-technical person to adapt to and create working test cases
+It fix defects faster by thoroughly documenting and replicating defects for developer
+Collapse test creation and test documentation at a single site
+Parameterization is easy than WinRunner
+QTP supports .NET development environment
+It has better object identification mechanism
+It can enhance existing QTP scripts without "Application Under Test" is available, by using the active screen
+Download QTP
+
+Rational Functional Tester
+It is an Object-Oriented automated Functional Testing tool that is capable of performing automated functional, regression, data-driven testing and GUI testing. The main features of this tool are
+
+It supports a wide range of protocols and applications like Java, HTML, NET, Windows, SAP, Visual Basic, etc.
+It can record and replay the actions on demand
+It integrates well with source control management tools such as Rational Clear Case and Rational Team Concert integration
+It allows developers to create keyword associated script so that it can be re-used
+Eclipse Java Developer Toolkit editor facilitates the team to code test scripts in Java with Eclipse
+It supports custom controls through proxy SDK (Java/.Net)
+It supports version control to enable parallel development of test scripts and concurrent usage by geographically distributed team
+Download Rational Functional Tester
+
+WATIR
+It is an open source testing software for regression testing. It enables you to write tests that are easy to read and maintain. Watir supports only internet explorer on windows while Watir webdriver supports Chrome, Firefox, IE, Opera, etc.
+
+It supports multiple browsers on different platforms
+Rather than using proprietary vendor script, it uses a fully-featured modern scripting language Ruby
+It supports your web app regardless of what it is developed in
+Download Watir
+
+SilkTest
+Silk Test is designed for doing functional and regression testing. For e-business application, silk test is the leading functional testing product. It is a product of Segue Software takeover by Borland in 2006. It is an object-oriented language just like C++. It uses the concept of an object, classes, and inheritance. Its main feature includes
+
+It consists of all the source script files
+It converts the script commands into GUI commands. On the same machine, commands can be run on a remote or host machine
+To identify the movement of the mouse along with keystrokes, Silktest can be executed. It can avail both playback and record method or descriptive programming methods to get the dialogs
+It identifies all controls and windows of the application under test as objects and determines all of the attributes and properties of each window
+
+Conclusion
+The right selection of automation tool, testing process, and team, are important players for automation to be successful. Manual and automation methods go hand-in-hand for successful testing.
+
+
+
+
+
+
+
+
+
+
