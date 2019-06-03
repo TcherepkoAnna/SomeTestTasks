@@ -156,8 +156,7 @@ public class Videocards {
                 minPriceProduct = p;
             }
         }
-
-        LOG.info("--->Min price product: " + minPriceProduct.findElement(productTitleTextLocator).getText() + " --->Min price value: " + minPriceValue);
+        LOG.debug("minimun price found: "+minPriceValue);
         return minPriceProduct;
     }
 
@@ -171,5 +170,9 @@ public class Videocards {
         Util.scrollIntoView(jsExecutor, offersLink);
         offersLink.click();
         return new Offers(driver, urlOffers);
+    }
+
+    public String getProductInfo(WebElement product) {
+        return "--->Min price product: " + product.findElement(productTitleTextLocator).getText() + " --->Min price value: " + product;
     }
 }

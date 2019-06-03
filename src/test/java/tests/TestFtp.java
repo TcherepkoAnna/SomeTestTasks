@@ -21,9 +21,9 @@ public class TestFtp {
 
         try {
             conn = new FtpConnection(config.getFtpHostname());
-            Assert.assertTrue(conn.connect());
+            Assert.assertTrue(conn.connect(), "connection failed");
             log("successful connection");
-            Assert.assertTrue(conn.login(config.getFtpUsername(), config.getFtpPassword()));
+            Assert.assertTrue(conn.login(config.getFtpUsername(), config.getFtpPassword()), "login failed");
             log("successful login");
 
             FTPFile[] files = conn.getDirectoriesList();
@@ -44,6 +44,7 @@ public class TestFtp {
             }
         } catch (IOException e) {
             LOG.error(e.getMessage());
+            Assert.assertTrue(false);
         } finally {
             try {
                 conn.disconnectFromServer();

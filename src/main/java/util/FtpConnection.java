@@ -23,11 +23,13 @@ public class FtpConnection {
         LOG.debug("setting connection");
         client.connect(host);
         int replyCode = client.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(replyCode)) {
-            LOG.error("Operation failed. Server reply code: " + replyCode);
-            return false;
+        LOG.debug("SERVER: "+ replyCode);
+        if (FTPReply.isPositiveCompletion(replyCode)) {
+            LOG.error("Connected successfully. Server reply code: " + replyCode);
+            return true;
         }
-        return true;
+        LOG.error("Operation failed. Server reply code: " + replyCode);
+        return false;
     }
 
     public boolean login(String name, String password) throws IOException {

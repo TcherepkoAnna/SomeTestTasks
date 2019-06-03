@@ -28,6 +28,7 @@ public class TestOnliner extends TestBase {
         Videocards videocards = getVideocards(catalog);
         List<WebElement> products = videocards.selectWithRating(config.getVideocardsMinRating());
         WebElement minPriceProduct = videocards.getMinPriceProduct(products);
+        log(videocards.getProductInfo(minPriceProduct));
 
         Offers offers = videocards.getOffers(minPriceProduct);
         Assert.assertTrue(offers.checkUrl());
@@ -37,7 +38,7 @@ public class TestOnliner extends TestBase {
         Assert.assertTrue(seller.checkUrl());
         String sellerName = seller.getName();
         String sellerURL = driver.getCurrentUrl();
-        LOG.info("--->Seller: "+sellerURL + " : " + sellerName);
+        log("--->Seller: "+sellerURL + " : " + sellerName);
 
     }
 
