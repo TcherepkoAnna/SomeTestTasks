@@ -19,6 +19,7 @@ public class FileCreator {
     private Drive driveService;
 
     public FileCreator(Drive service) {
+        LOG.debug("getting FileCreator object");
         this.driveService = service;
     }
 
@@ -30,8 +31,8 @@ public class FileCreator {
         List<String> parents = Arrays.asList(googleFolderIdParent);
         fileMetadata.setParents(parents);
         File file = driveService.files().create(fileMetadata, uploadStreamContent)
-                .setFields("id, webContentLink, webViewLink, parents").execute();
-        LOG.debug("Created Google file!");
+                .setFields("id, name, webContentLink, webViewLink, parents").execute();
+        LOG.debug("Created Google file: " + file.getName());
         LOG.debug("WebContentLink: " + file.getWebContentLink());
         LOG.debug("WebViewLink: " + file.getWebViewLink());
         LOG.debug("Parents: "+file.getParents());

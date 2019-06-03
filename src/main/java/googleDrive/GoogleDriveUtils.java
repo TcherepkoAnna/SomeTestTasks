@@ -27,7 +27,7 @@ public class GoogleDriveUtils {
     // Directory to store user credentials for this application.
     private static final java.io.File CREDENTIALS_FOLDER //
             = new java.io.File(System.getProperty("user.dir")+"\\src\\main\\resources", "credentials");
-
+    private static final java.io.File TOKEN_FOLDER = new java.io.File(CREDENTIALS_FOLDER, "token");
     private static final String CLIENT_SECRET_FILE_NAME = "credentials.json";
 
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
@@ -43,7 +43,7 @@ public class GoogleDriveUtils {
     static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            DATA_STORE_FACTORY = new FileDataStoreFactory(CREDENTIALS_FOLDER);
+            DATA_STORE_FACTORY = new FileDataStoreFactory(TOKEN_FOLDER);
         } catch (Throwable t) {
             t.printStackTrace();
             System.exit(1);

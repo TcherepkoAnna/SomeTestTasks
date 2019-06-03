@@ -6,9 +6,9 @@
         <classes>
             <!--<class name="tests.TestBase"/>-->
             <!--<class name="tests.TestOnliner"/>-->
-            <!--<class name="tests.TestUploadDownload"/>-->
+            <!--<class name="tests.TestFilesFm"/>-->
             <class name="tests.TestGoogleDriveAPI"/>
-            <!--<class name="tests.TestFtp"/>-->
+            <class name="tests.TestFtp"/>
         </classes>
     </test>
 </suite>

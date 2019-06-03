@@ -18,7 +18,7 @@
         <profile>
             <id>testfilesfm</id>
             <properties>
-                <runSuite>**/tests.TestUploadDownload.class</runSuite>
+                <runSuite>**/tests.TestFilesFm.class</runSuite>
             </properties>
         </profile>
         <profile>
